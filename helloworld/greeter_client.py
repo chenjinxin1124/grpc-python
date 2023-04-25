@@ -33,7 +33,11 @@ def run():
         print("Greeter client received: " + response.message)
         response = stub.SayHelloAgain(helloworld_pb2.HelloRequest(name="you"))
         print("Greeter client received: " + response.message)
-    print("Greeter client received: " + response.message)
+        # https://leetcode-cn.com/problems/product-of-array-except-self/
+        response = stub.ProductExceptSelf(
+            helloworld_pb2.ProductExceptSelfRequest(nums=[1, 2, 3, 4])
+        )
+        print(response.nums)
 
 
 if __name__ == "__main__":

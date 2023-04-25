@@ -28,6 +28,20 @@ class Greeter(helloworld_pb2_grpc.GreeterServicer):
     def SayHelloAgain(self, request, context):
         return helloworld_pb2.HelloReply(message=f"Hello again, {request.name}!")
 
+    # https://leetcode.cn/problems/product-of-array-except-self/
+    def ProductExceptSelf(self, request, context):
+        nums = request.nums
+        length = len(nums)
+        answer = [0] * length
+        answer[0] = 1
+        for i in range(1, length):
+            answer[i] = nums[i - 1] * answer[i - 1]
+        R = 1
+        for i in reversed(range(length)):
+            answer[i] = answer[i] * R
+            R *= nums[i]
+        return helloworld_pb2.ProductExceptSelfReply(nums=answer)
+
 
 def serve():
     port = "50051"

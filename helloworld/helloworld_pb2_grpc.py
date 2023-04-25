@@ -30,6 +30,11 @@ class GreeterStub(object):
                 request_serializer=helloworld__pb2.HelloRequest.SerializeToString,
                 response_deserializer=helloworld__pb2.HelloReply.FromString,
                 )
+        self.ProductExceptSelf = channel.unary_unary(
+                '/helloworld.Greeter/ProductExceptSelf',
+                request_serializer=helloworld__pb2.ProductExceptSelfRequest.SerializeToString,
+                response_deserializer=helloworld__pb2.ProductExceptSelfReply.FromString,
+                )
 
 
 class GreeterServicer(object):
@@ -56,6 +61,13 @@ class GreeterServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ProductExceptSelf(self, request, context):
+        """https://leetcode.cn/problems/product-of-array-except-self/
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_GreeterServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -73,6 +85,11 @@ def add_GreeterServicer_to_server(servicer, server):
                     servicer.SayHelloAgain,
                     request_deserializer=helloworld__pb2.HelloRequest.FromString,
                     response_serializer=helloworld__pb2.HelloReply.SerializeToString,
+            ),
+            'ProductExceptSelf': grpc.unary_unary_rpc_method_handler(
+                    servicer.ProductExceptSelf,
+                    request_deserializer=helloworld__pb2.ProductExceptSelfRequest.FromString,
+                    response_serializer=helloworld__pb2.ProductExceptSelfReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -133,5 +150,22 @@ class Greeter(object):
         return grpc.experimental.unary_unary(request, target, '/helloworld.Greeter/SayHelloAgain',
             helloworld__pb2.HelloRequest.SerializeToString,
             helloworld__pb2.HelloReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ProductExceptSelf(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/helloworld.Greeter/ProductExceptSelf',
+            helloworld__pb2.ProductExceptSelfRequest.SerializeToString,
+            helloworld__pb2.ProductExceptSelfReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

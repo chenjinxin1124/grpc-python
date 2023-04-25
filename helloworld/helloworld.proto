@@ -30,6 +30,9 @@ service Greeter {
 
   // Sends another greeting
   rpc SayHelloAgain (HelloRequest) returns (HelloReply) {}
+
+  // https://leetcode.cn/problems/product-of-array-except-self/
+  rpc ProductExceptSelf (ProductExceptSelfRequest) returns (ProductExceptSelfReply) {}
 }
 
 // The request message containing the user's name.
@@ -40,4 +43,12 @@ message HelloRequest {
 // The response message containing the greetings
 message HelloReply {
   string message = 1;
+}
+
+message ProductExceptSelfRequest {
+  repeated int32 nums = 1;
+}
+
+message ProductExceptSelfReply {
+  repeated int32 nums = 1;
 }
